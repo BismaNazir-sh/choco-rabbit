@@ -38,6 +38,7 @@
 </style>
 </head>
 <body>
+<p> Progress: </p>
     <div id="progress-bar-container">
         <div id="progress-bar">
             <div id="progress"></div>
@@ -48,10 +49,11 @@
     <script>
         function startTask() {
             // Perform API call to start task execution
-            fetch('/start-task/', { method: 'POST' })
+            fetch('start-task/', { method: 'POST' })
                 .then(response => {
                     if (response.ok) {
                         console.log('Task execution started successfully.');
+                        updateProgressBar(); // Start updating progress bar
                     } else {
                         console.error('Error starting task execution.');
                     }
@@ -63,7 +65,7 @@
 
         // Function to update progress bar
         function updateProgressBar() {
-            fetch('/update-progress/')
+            fetch('update-progress/')
                 .then(response => response.json())
                 .then(data => {
                     const progress = data.progress;
@@ -78,9 +80,6 @@
                     console.error('Error updating progress:', error);
                 });
         }
-
-        // Start updating progress bar when the page loads
-        updateProgressBar();
     </script>
 </body>
 </html>

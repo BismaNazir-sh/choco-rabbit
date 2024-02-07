@@ -7,6 +7,4 @@ def long_running_task(task_id):
     for i in range(total_steps):
         time.sleep(0.1)  # Simulating some work
         progress = (i + 1) / total_steps * 100
-        # Store progress in Redis
-        # Example: redis.set(task_id, progress)
     return 'Task Completed!'

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -46,7 +46,7 @@
     </div>
     <button onclick="startTask()">Start Task</button>
 
-    <script>
+    <!-- <script>
         function startTask() {
             // Perform API call to start task execution
             fetch('start-task/', { method: 'POST' })
@@ -73,13 +73,79 @@
                     progressBar.style.width = progress + '%';
                     if (progress < 100) {
                         // Continue updating progress until completion
-                        setTimeout(updateProgressBar, 2000); // Update progress every 2 seconds
+                        setTimeout(updateProgressBar, 20000); // Update progress every 2 seconds
                     }
                 })
                 .catch(error => {
                     console.error('Error updating progress:', error);
                 });
+      }
+    </script>
+</body>
+</html> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Completed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
+        .progress-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px; /* Adjust height as needed */
+            background-color: #eee; /* Background color of progress bar wrapper */
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #68a9ef; /* Color of the progress bar */
+            width: 0%; /* Initial width of the progress bar */
+        }
+        #progress-bar-message {
+            position: fixed;
+            top: 10px; /* Adjust top position as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+        #celery-result {
+            position: fixed;
+            bottom: 10px; /* Adjust bottom position as needed */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress bar container -->
+    <div class='progress-wrapper'>
+        <div id='progress-bar' class='progress-bar'>&nbsp;</div>
+    </div>
+    
+    <!-- Message -->
+    <div id="progress-bar-message">Waiting for progress to start...</div>
+    
+    <!-- Celery result -->
+    <div id="celery-result"></div>
+    
+    <!-- Include Celery progress JavaScript -->
+    <script src="{% static 'celery_progress/celery_progress.js' %}"></script>
+    
+    <!-- Script to initialize progress bar -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+            CeleryProgressBar.initProgressBar(progressUrl);
+        });
     </script>
 </body>
 </html>
